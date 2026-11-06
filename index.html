@@ -4,10 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nexus Expense - Budget & Expense Tracker</title>
-  
-  <!-- PWA Manifest via Data URI so you don't need a separate manifest.json file -->
-  <link rel="manifest" href='data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Nexus%20Expense%22%2C%22short_name%22%3A%22Expense%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23171a21%22%2C%22theme_color%22%3A%22%23171a21%22%7D'>
-  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons CDN -->
@@ -181,7 +177,7 @@
                 <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded border border-slate-700">${tx.category}</span>
               </div>
             </div>
-            <div class="flex items-center space-x-3">
+            <div class="files flex items-center space-x-3">
               <span class="font-mono ${tx.type === 'income' ? 'text-emerald-400' : 'text-rose-400'}">
                 ${tx.type === 'income' ? '+' : '-'}$${amountNum.toFixed(2)}
               </span>
@@ -211,6 +207,7 @@
       }
 
       const netBalance = totalIncome - totalExpense;
+      balance_amount = netBalance;
       balanceEl.innerText = `$${netBalance.toFixed(2)}`;
       incomeEl.innerText = `+$${totalIncome.toFixed(2)}`;
       expenseEl.innerText = `-$${totalExpense.toFixed(2)}`;
@@ -222,14 +219,15 @@
       e.preventDefault();
       const title = document.getElementById('tx-title').value.trim();
       const amount = document.getElementById('tx-amount').value;
-      const type = document.getElementById('tx-type5').value || document.getElementById('tx-type').value;
+      const type = document.getElementById('tx-type').value;
       const category = document.getElementById('tx-category').value;
 
       if (!title || !amount) return;
 
-      transactions.unshift({ title, amount, type: document.getElementById('tx-type').value, category });
+      transactions.unshift({ title, amount, type, category });
       updateUI();
 
+      document.getElementById('ts-title') // safe reset
       document.getElementById('tx-title').value = '';
       document.getElementById('tx-amount').value = '';
     }
@@ -249,5 +247,7 @@
     // Initial Render
     updateUI();
   </script>
+</body>
+</html>
 </body>
 </html>
